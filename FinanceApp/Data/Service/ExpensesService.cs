@@ -22,5 +22,17 @@ namespace FinanceApp.Data.Service
             return expenses;
 
         }
+
+        public IQueryable GetChartData()
+        {
+            var  data = _context.Expenses
+                .GroupBy(e => e.Category)
+                .Select(g => new
+                {
+                    Category = g.Key,
+                    TotalAmount = g.Sum(e => e.Amount)
+                });
+            return data;
+        }
     }
 }
